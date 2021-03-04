@@ -1,0 +1,84 @@
+# For the benefit of emacs users: -*- shell-script -*-
+#
+#  _ _____ _     _            _
+# (_)___ /| |__ | | ___   ___| | _____
+# | | |_ \| '_ \| |/ _ \ / __| |/ / __|
+# | |___) | |_) | | (_) | (__|   <\__ \
+# |_|____/|_.__/|_|\___/ \___|_|\_\___/
+
+align=center
+separator=true
+separator_block_width=15
+markup=pango
+
+[wifi]
+command=iwgetid -r | tr '\n' ' ' && grep $(iwgetid -m | awk '{ printf "%s", $1 }') /proc/net/wireless | awk '{ printf "%i%\n", int($3 * 100 / 70) }'
+instance=wlp11s0f3u1
+interval=5
+label=<span color="#f1fa8c"> </span>
+
+[mediaplayer]
+command=playerctl metadata --format "{{ artist }} - {{ title }}"
+interval=2
+label=<span color="#ffb86c"> </span>
+
+[arch-update]
+command=checkupdates | wc -l
+interval=once
+label=<span color="#00FF00"><b>Updates: </b></span>
+
+[root]
+command=df -h / | awk 'FNR==2{print $4}'
+interval=3
+label=<span color="#bd93f9"> </span>
+
+[gpu-load]
+command=nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{ printf "%02i<span color=\"#8be9fd\"><b>%</b></span>\n", $0}'
+label=<span color="#8be9fd"><b>CPU: </b></span>
+interval=2
+
+[gpu-temperature]
+command=nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits | awk '{ printf "%i<span color=\"#8be9fd\">糖 </span>\n", $0}'
+interval=2
+
+[cpu]
+command=sh ~/.config/i3blocks/cpu
+interval=1
+label=<span color="#50fa7b"><b> </b></span>
+
+[memory]
+command=free -h --si | awk 'FNR==2{ print $0 }' | awk '{ print $3 "/" $2 }'
+interval=2
+label=<span color="#f1fa8c"> </span>
+
+[volume]
+command=pulseaudio-ctl full-status | awk '{ printf "%i%\n", $1 }'
+interval=1
+label=<span color="#ffb86c"> </span>
+
+[Weather]
+command=sh ~/.config/i3blocks/openweather
+interval=10
+
+[bandwidth]
+command=~/.config/i3blocks/bandwidth
+interval=1
+
+[time]
+command=date '+%H:%M:%S'
+interval=1
+label=<span color="#bd93f9"> </span>
+
+[date]
+command=date '+%F %A'
+interval=60
+label=<span color="#8be9fd"> </span>
+
+[shutdown_menu]
+full_text=<span color="#50fa7b"> </span>
+command=~/.config/i3blocks/shutdown_menu
+ROFI_TEXT=Menu:
+ROFI_OPTIONS=-no-config -location 3 -yoffset 29 -width 10 -xoffset 5 -bw 0 -border 0 -theme ~/.config/rofi/menu.rasi
+ENABLE_CONFIRMATIONS=true
+LAUNCHER=rofi
+LOCKSCRIPT=betterlockscreen -l dimblur
