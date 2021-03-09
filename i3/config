@@ -141,8 +141,8 @@ for_window [title="^Steam Keyboard$"] floating enable
 for_window [class="Yad"] floating enable
 
 # Managing Volume
-bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 1+ unmute"
-bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1- unmute"
+bindsym XF86AudioRaiseVolume exec "pulseaudio-ctl up"
+bindsym XF86AudioLowerVolume exec "pulseaudio-ctl down"
 bindsym XF86AudioMute exec "pulseaudio-ctl mute "
 
 # Reload the configuration file
